@@ -1,18 +1,33 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { initDB } from '../database/db';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+export default function RootLayout() {
+  const [dbInitialized, setDbInitialized] = useState(false);
 
-SplashScreen.preventAutoHideAsync();
+  useEffect(() => {
+    const setupDB = async () => {
+      try {
+        await initDB();
+      } catch (error) {
+        console.error('DB Initialization failed:', error);
+      } finally {
+        setDbInitialized(true);
+      }
+    };
+    setupDB();
+  }, []);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  if (!dbInitialized) {
+    return null; // Or a splash screen
+  }
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <Stack>
+      <Stack.Screen name="index" options={{ title: '홈' }} />
+      <Stack.Screen name="study" options={{ title: '학습', headerBackTitle: '뒤로' }} />
+      <Stack.Screen name="list" options={{ title: '단어장', headerBackTitle: '뒤로' }} />
+      <Stack.Screen name="settings" options={{ title: '설정', headerBackTitle: '뒤로' }} />
+    </Stack>
   );
 }

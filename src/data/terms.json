@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "term": "Machine Learning",
+    "pronunciation": "머신 러닝",
+    "fullName": "",
+    "meaning": "기계 학습",
+    "explanation": "컴퓨터가 명시적인 프로그래밍 없이도 데이터로부터 학습하고 성능을 향상시키는 인공지능의 한 분야입니다.",
+    "categoryId": 1
+  },
+  {
+    "id": 2,
+    "term": "LLM",
+    "pronunciation": "엘엘엠",
+    "fullName": "Large Language Model",
+    "meaning": "대규모 언어 모델",
+    "explanation": "방대한 양의 텍스트 데이터를 학습하여 사람과 유사한 언어를 이해하고 생성할 수 있는 인공지능 모델입니다.",
+    "categoryId": 1
+  },
+  {
+    "id": 3,
+    "term": "HTML",
+    "pronunciation": "에이치티엠엘",
+    "fullName": "HyperText Markup Language",
+    "meaning": "웹 페이지 구조를 정의하는 언어",
+    "explanation": "웹 브라우저가 화면에 글, 이미지, 링크 등을 어떻게 표시할지 알려주는 마크업 언어입니다.",
+    "categoryId": 2
+  },
+  {
+    "id": 4,
+    "term": "CSS",
+    "pronunciation": "씨에스에스",
+    "fullName": "Cascading Style Sheets",
+    "meaning": "웹 페이지 스타일 지정 언어",
+    "explanation": "HTML로 작성된 웹 문서의 디자인, 레이아웃, 색상, 폰트 등을 꾸며주는 역할을 합니다.",
+    "categoryId": 2
+  },
+  {
+    "id": 5,
+    "term": "Variable",
+    "pronunciation": "배리어블",
+    "fullName": "",
+    "meaning": "변수",
+    "explanation": "프로그램이 실행되는 동안 데이터를 임시로 저장하기 위해 메모리 공간에 이름을 붙인 것입니다.",
+    "categoryId": 3
+  },
+  {
+    "id": 6,
+    "term": "Function",
+    "pronunciation": "펑션",
+    "fullName": "",
+    "meaning": "함수",
+    "explanation": "특정 작업을 수행하는 코드의 묶음으로, 필요할 때마다 호출하여 코드를 재사용할 수 있게 해줍니다.",
+    "categoryId": 3
+  },
+  {
+    "id": 7,
+    "term": "IP",
+    "pronunciation": "아이피",
+    "fullName": "Internet Protocol",
+    "meaning": "인터넷 규약",
+    "explanation": "네트워크 상에서 컴퓨터들이 서로 통신하기 위해 지켜야 하는 규칙이나 인터넷 주소를 의미합니다.",
+    "categoryId": 4
+  },
+  {
+    "id": 8,
+    "term": "DNS",
+    "pronunciation": "디엔에스",
+    "fullName": "Domain Name System",
+    "meaning": "도메인 이름 시스템",
+    "explanation": "사람이 읽기 쉬운 웹 주소(예: google.com)를 컴퓨터가 이해할 수 있는 IP 주소로 변환해 주는 시스템입니다.",
+    "categoryId": 4
+  },
+  {
+    "id": 9,
+    "term": "SQL",
+    "pronunciation": "에스큐엘 (또는 시퀄)",
+    "fullName": "Structured Query Language",
+    "meaning": "구조화된 질의 언어",
+    "explanation": "관계형 데이터베이스에 정보를 저장, 검색, 수정, 삭제하기 위해 사용하는 표준 프로그래밍 언어입니다.",
+    "categoryId": 5
+  },
+  {
+    "id": 10,
+    "term": "NoSQL",
+    "pronunciation": "노에스큐엘",
+    "fullName": "Not Only SQL",
+    "meaning": "비관계형 데이터베이스",
+    "explanation": "전통적인 표 형태가 아닌 유연한 구조로 대량의 데이터를 빠르고 분산 처리할 수 있는 데이터베이스 시스템입니다.",
+    "categoryId": 5
+  },
+  {
+    "id": 11,
+    "term": "Git",
+    "pronunciation": "깃",
+    "fullName": "",
+    "meaning": "버전 관리 시스템",
+    "explanation": "소스 코드의 변경 이력을 추적하고 여러 개발자가 협업할 수 있도록 돕는 분산형 버전 관리 도구입니다.",
+    "categoryId": 6
+  },
+  {
+    "id": 12,
+    "term": "IDE",
+    "pronunciation": "아이디이",
+    "fullName": "Integrated Development Environment",
+    "meaning": "통합 개발 환경",
+    "explanation": "코드 편집기, 컴파일러, 디버거 등 소프트웨어 개발에 필요한 다양한 도구를 하나로 모아 제공하는 프로그램입니다.",
+    "categoryId": 6
+  },
+  {
+    "id": 13,
+    "term": "AWS",
+    "pronunciation": "에이더블유에스",
+    "fullName": "Amazon Web Services",
+    "meaning": "아마존 클라우드 서비스",
+    "explanation": "아마존에서 제공하는 세계 최대 규모의 클라우드 컴퓨팅 플랫폼으로, 서버, 스토리지, 데이터베이스 등을 빌려 쓸 수 있습니다.",
+    "categoryId": 7
+  },
+  {
+    "id": 14,
+    "term": "CI/CD",
+    "pronunciation": "씨아이 씨디",
+    "fullName": "Continuous Integration / Continuous Deployment",
+    "meaning": "지속적 통합 / 지속적 배포",
+    "explanation": "코드 변경 사항을 자동으로 테스트하고 라이브 서버에 반영하여 개발 속도와 안정성을 높이는 자동화 프로세스입니다.",
+    "categoryId": 7
+  },
+  {
+    "id": 15,
+    "term": "Encryption",
+    "pronunciation": "인크립션",
+    "fullName": "",
+    "meaning": "암호화",
+    "explanation": "중요한 데이터를 권한이 없는 사람이 읽을 수 없도록 특별한 알고리즘을 이용해 알아볼 수 없는 형태로 변환하는 과정입니다.",
+    "categoryId": 8
+  },
+  {
+    "id": 16,
+    "term": "OAuth",
+    "pronunciation": "오어스",
+    "fullName": "Open Authorization",
+    "meaning": "개방형 인증 표준",
+    "explanation": "사용자가 비밀번호를 직접 제공하지 않고도 구글, 카카오 등의 계정 정보를 이용해 다른 서비스에 로그인할 수 있게 해주는 기술입니다.",
+    "categoryId": 8
+  }
+]
