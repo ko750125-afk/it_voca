@@ -77,6 +77,10 @@ export const initDB = async () => {
     }
   }
 
+  // 기존 기본 데이터 중 이번 업데이트에서 제외된 과거 더미 데이터 정리 (사용자 추가 항목 제외)
+  const maxSeededId = Math.max(...termsData.map(t => t.id));
+  db.runSync('DELETE FROM Terms WHERE isUserAdded = 0 AND id > ?', [maxSeededId]);
+
   // 기본 가리기 설정 시딩
   const defaultSettings = [
     { key: 'maskPronunciation', value: 'false' },
