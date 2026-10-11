@@ -58,13 +58,6 @@ export default function HomeScreen() {
       {/* Quick Shortcuts */}
       <Text style={styles.sectionTitle}>바로가기</Text>
       <View style={styles.shortcutsGrid}>
-        <TouchableOpacity 
-          style={styles.shortcutCard} 
-          onPress={() => navigateWithSound(() => router.push({ pathname: '/study', params: { categoryId: 0, categoryName: '전체 통합 학습' } }))}
-        >
-          <Text style={styles.shortcutEmoji}>⚡</Text>
-          <Text style={styles.shortcutLabel}>전체 학습</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity 
           style={styles.shortcutCard} 
