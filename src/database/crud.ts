@@ -108,16 +108,25 @@ export const saveUserTerm = (termData: Partial<Term> & { id?: number }) => {
       SET term=?, pronunciation=?, fullName=?, meaning=?, explanation=?, categoryId=?, isEdited=1
       WHERE id = ?
     `, [
-      termData.term, termData.pronunciation, termData.fullName, 
-      termData.meaning, termData.explanation, termData.categoryId, termData.id
+      termData.term ?? '', 
+      termData.pronunciation ?? '', 
+      termData.fullName ?? '', 
+      termData.meaning ?? '', 
+      termData.explanation ?? '', 
+      termData.categoryId ?? 1, 
+      termData.id
     ]);
   } else {
     db.runSync(`
       INSERT INTO Terms (term, pronunciation, fullName, meaning, explanation, categoryId, isUserAdded, isEdited)
       VALUES (?, ?, ?, ?, ?, ?, 1, 1)
     `, [
-      termData.term, termData.pronunciation, termData.fullName, 
-      termData.meaning, termData.explanation, termData.categoryId
+      termData.term ?? '', 
+      termData.pronunciation ?? '', 
+      termData.fullName ?? '', 
+      termData.meaning ?? '', 
+      termData.explanation ?? '', 
+      termData.categoryId ?? 1
     ]);
   }
 };
