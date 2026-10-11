@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import Flashcard from '../components/Flashcard';
-import { Term, Settings, getTerms, getSettings, updateTermStatus, incrementExposure } from '../database/crud';
+import { Term, Settings, getTerms, getSettings, updateTermStatus, incrementExposure, saveLastStudy } from '../database/crud';
 import { playCardWhoosh, playButtonClick } from '../utils/sound';
 
 const { width } = Dimensions.get('window');
 
 export default function StudyScreen() {
-  const { categoryId, categoryName, statusFilter } = useLocalSearchParams();
+  const { categoryId, categoryName, statusFilter, targetTermId } = useLocalSearchParams();
   const router = useRouter();
   
   const [terms, setTerms] = useState<Term[]>([]);
@@ -31,13 +31,32 @@ export default function StudyScreen() {
     }
 
     setTerms(loadedTerms);
-    setCurrentIndex(0);
+
+    // 지난 학습 단어로 바로 점프
+    if (targetTermId) {
+      const targetIdNum = Number(targetTermId);
+      const foundIdx = loadedTerms.findIndex(t => t.id === targetIdNum);
+      setCurrentIndex(foundIdx !== -1 ? foundIdx : 0);
+    } else {
+      setCurrentIndex(0);
+    }
+
     setSettings(getSettings());
-  }, [categoryId, statusFilter]);
+  }, [categoryId, statusFilter, targetTermId]);
 
   useEffect(() => {
     if (terms.length > 0 && terms[currentIndex]) {
-      incrementExposure(terms[currentIndex].id);
+      const cur = terms[currentIndex];
+      incrementExposure(cur.id);
+
+      // 마지막 학습 위치 저장
+      saveLastStudy({
+        termId: cur.id,
+        termName: cur.term,
+        categoryId: Number(categoryId || 0),
+        categoryName: String(categoryName || '전체 학습'),
+        statusFilter: statusFilter !== undefined && statusFilter !== '' ? Number(statusFilter) : undefined,
+      });
     }
   }, [currentIndex, terms]);
 

@@ -150,3 +150,47 @@ export const getSettings = (): Settings => {
 export const updateSetting = (key: string, value: boolean) => {
   db.runSync('UPDATE Settings SET value = ? WHERE key = ?', [value ? 'true' : 'false', key]);
 };
+
+// ----------------- 지난 학습 이어하기 -----------------
+
+export interface LastStudyInfo {
+  termId: number;
+  termName: string;
+  categoryId: number;
+  categoryName: string;
+  statusFilter?: number;
+}
+
+export const saveLastStudy = (info: LastStudyInfo) => {
+  const items: [string, string][] = [
+    ['lastStudyTermId', String(info.termId)],
+    ['lastStudyTermName', info.termName],
+    ['lastStudyCategoryId', String(info.categoryId)],
+    ['lastStudyCategoryName', info.categoryName],
+    ['lastStudyStatusFilter', String(info.statusFilter ?? -1)],
+  ];
+
+  for (const [k, v] of items) {
+    db.runSync('INSERT OR REPLACE INTO Settings (key, value) VALUES (?, ?)', [k, v]);
+  }
+};
+
+export const getLastStudy = (): LastStudyInfo | null => {
+  const termId = db.getFirstSync<{ value: string }>('SELECT value FROM Settings WHERE key = ?', ['lastStudyTermId']);
+  if (!termId || !termId.value) return null;
+
+  const termName = db.getFirstSync<{ value: string }>('SELECT value FROM Settings WHERE key = ?', ['lastStudyTermName'])?.value || '';
+  const catId = db.getFirstSync<{ value: string }>('SELECT value FROM Settings WHERE key = ?', ['lastStudyCategoryId'])?.value || '0';
+  const catName = db.getFirstSync<{ value: string }>('SELECT value FROM Settings WHERE key = ?', ['lastStudyCategoryName'])?.value || '전체 단어';
+  const statusFilterRaw = db.getFirstSync<{ value: string }>('SELECT value FROM Settings WHERE key = ?', ['lastStudyStatusFilter'])?.value;
+
+  const statusFilter = statusFilterRaw !== undefined && statusFilterRaw !== '-1' ? Number(statusFilterRaw) : undefined;
+
+  return {
+    termId: Number(termId.value),
+    termName,
+    categoryId: Number(catId),
+    categoryName: catName,
+    statusFilter,
+  };
+};

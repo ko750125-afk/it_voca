@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useFocusEffect } from 'expo-router';
-import { getCategoryStats, getTotalStats, CategoryStat } from '../database/crud';
+import { getCategoryStats, getTotalStats, CategoryStat, getLastStudy, LastStudyInfo } from '../database/crud';
 import { playButtonClick } from '../utils/sound';
 
 const appIconSource = require('../../assets/images/app-icon.png');
@@ -20,11 +20,13 @@ export default function HomeScreen() {
   const router = useRouter();
   const [stats, setStats] = useState({ totalCount: 0, exposureCount: 0, memoCount: 0, completedCount: 0 });
   const [categories, setCategories] = useState<CategoryStat[]>([]);
+  const [lastStudy, setLastStudy] = useState<LastStudyInfo | null>(null);
 
   useFocusEffect(
     useCallback(() => {
       setStats(getTotalStats());
       setCategories(getCategoryStats());
+      setLastStudy(getLastStudy());
     }, [])
   );
 
@@ -37,6 +39,27 @@ export default function HomeScreen() {
     action();
   };
 
+  const handleResumeStudy = () => {
+    navigateWithSound(() => {
+      if (lastStudy) {
+        router.push({
+          pathname: '/study',
+          params: {
+            categoryId: lastStudy.categoryId,
+            categoryName: lastStudy.categoryName,
+            statusFilter: lastStudy.statusFilter !== undefined ? lastStudy.statusFilter : '',
+            targetTermId: lastStudy.termId,
+          }
+        });
+      } else {
+        router.push({
+          pathname: '/study',
+          params: { categoryId: 0, categoryName: '전체 통합 학습' }
+        });
+      }
+    });
+  };
+
   const renderHeader = () => (
     <View style={styles.headerContainer}>
       {/* Hero Banner with Selected Icon */}
@@ -44,13 +67,19 @@ export default function HomeScreen() {
         <Image source={appIconSource} style={styles.heroIcon} />
         <View style={styles.heroContent}>
           <Text style={styles.heroAppTitle}>IT Voca</Text>
-          <Text style={styles.heroSubtitle}>바이브코딩 핵심 용어 플래시카드</Text>
+          <Text style={styles.heroSubtitle}>
+            {lastStudy 
+              ? `최근 학습: ${lastStudy.termName} (${lastStudy.categoryName})` 
+              : '바이브코딩 핵심 용어 플래시카드'}
+          </Text>
           <TouchableOpacity 
             style={styles.heroStartBtn}
-            onPress={() => navigateWithSound(() => router.push({ pathname: '/study', params: { categoryId: 0, categoryName: '전체 통합 학습' } }))}
+            onPress={handleResumeStudy}
             activeOpacity={0.8}
           >
-            <Text style={styles.heroStartBtnText}>▶ 전체 이어학습</Text>
+            <Text style={styles.heroStartBtnText}>
+              {lastStudy ? '▶ 지난 학습 이어서 하기' : '▶ 첫 학습 시작하기'}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
