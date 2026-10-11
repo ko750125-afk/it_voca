@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
+import { useAudioPlayer } from 'expo-audio';
 import Flashcard from '../components/Flashcard';
 import { Term, Settings, getTerms, getSettings, updateTermStatus, incrementExposure } from '../database/crud';
+
+const cardSoundSource = require('../../assets/sounds/card-flip.wav');
 
 const { width } = Dimensions.get('window');
 
@@ -14,6 +17,16 @@ export default function StudyScreen() {
   const [terms, setTerms] = useState<Term[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [settings, setSettings] = useState<Settings | null>(null);
+  const player = useAudioPlayer(cardSoundSource);
+
+  const playSound = () => {
+    try {
+      player.seekTo(0);
+      player.play();
+    } catch {
+      // Ignore audio error gracefully
+    }
+  };
 
   useEffect(() => {
     // Load terms (status 0 or 1)
@@ -31,6 +44,7 @@ export default function StudyScreen() {
 
   const handleNext = () => {
     if (currentIndex < terms.length - 1) {
+      playSound();
       setCurrentIndex(prev => prev + 1);
     } else {
       Alert.alert("학습 완료", "마지막 단어입니다.", [
@@ -41,6 +55,7 @@ export default function StudyScreen() {
 
   const handlePrev = () => {
     if (currentIndex > 0) {
+      playSound();
       setCurrentIndex(prev => prev - 1);
     }
   };
