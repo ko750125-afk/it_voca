@@ -7,10 +7,8 @@ import Animated, {
   interpolate, 
   Extrapolation 
 } from 'react-native-reanimated';
-import { useAudioPlayer } from 'expo-audio';
 import { Term, Settings } from '../database/crud';
-
-const flipSoundSource = require('../../assets/sounds/card-flip.wav');
+import { playCardWhoosh, playButtonClick } from '../utils/sound';
 
 interface Props {
   term: Term;
@@ -20,7 +18,6 @@ interface Props {
 export default function Flashcard({ term, settings }: Props) {
   const isFlipped = useSharedValue(0);
   const [flipped, setFlipped] = useState(false);
-  const player = useAudioPlayer(flipSoundSource);
 
   // Masking states (false = hidden by mask, true = revealed)
   const [showPronunciation, setShowPronunciation] = useState(!settings.maskPronunciation);
@@ -39,12 +36,7 @@ export default function Flashcard({ term, settings }: Props) {
   }, [term, settings]);
 
   const handleFlip = () => {
-    try {
-      player.seekTo(0);
-      player.play();
-    } catch {
-      // Ignore audio error gracefully
-    }
+    playCardWhoosh();
     const nextFlipped = !flipped;
     setFlipped(nextFlipped);
     isFlipped.value = withTiming(nextFlipped ? 1 : 0, { duration: 350 });
@@ -87,7 +79,10 @@ export default function Flashcard({ term, settings }: Props) {
       return (
         <View style={containerStyle}>
           <Pressable 
-            onPress={onReveal} 
+            onPress={() => {
+              playButtonClick();
+              onReveal();
+            }} 
             style={styles.maskContainer}
           >
             <View style={styles.maskBlock}>

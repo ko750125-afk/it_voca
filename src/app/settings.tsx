@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack } from 'expo-router';
 import { getSettings, updateSetting, Settings } from '../database/crud';
+import { playButtonClick } from '../utils/sound';
 
 export default function SettingsScreen() {
   const [settings, setSettings] = useState<Settings | null>(null);
@@ -13,6 +14,7 @@ export default function SettingsScreen() {
 
   const handleToggle = (key: keyof Settings) => {
     if (!settings) return;
+    playButtonClick();
     const newValue = !settings[key];
     updateSetting(key, newValue);
     setSettings({ ...settings, [key]: newValue });

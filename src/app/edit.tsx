@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { saveUserTerm, Term, getCategories, Category } from '../database/crud';
 import { db } from '../database/db';
+import { playButtonClick } from '../utils/sound';
 
 export default function EditScreen() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function EditScreen() {
   }, [id]);
 
   const handleSave = () => {
+    playButtonClick();
     if (!formData.term || !formData.pronunciation || !formData.meaning) {
       Alert.alert('알림', '용어, 발음, 뜻은 필수 입력 항목입니다.');
       return;
@@ -43,6 +45,7 @@ export default function EditScreen() {
   };
 
   const handleRestore = () => {
+    playButtonClick();
     Alert.alert('경고', '기본 데이터로 복구하시겠습니까? 사용자 수정 내용이 삭제됩니다.', [
       { text: '취소', style: 'cancel' },
       { 

@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { getCategoryStats, getTotalStats, CategoryStat } from '../database/crud';
+import { playButtonClick } from '../utils/sound';
 
 const appIconSource = require('../../assets/images/app-icon.png');
 const { width } = Dimensions.get('window');
@@ -31,6 +32,11 @@ export default function HomeScreen() {
     ? Math.round((stats.completedCount / stats.totalCount) * 100) 
     : 0;
 
+  const navigateWithSound = (action: () => void) => {
+    playButtonClick();
+    action();
+  };
+
   const renderHeader = () => (
     <View style={styles.headerContainer}>
       {/* Hero Banner with Selected Icon */}
@@ -41,7 +47,7 @@ export default function HomeScreen() {
           <Text style={styles.heroSubtitle}>바이브코딩 핵심 용어 플래시카드</Text>
           <TouchableOpacity 
             style={styles.heroStartBtn}
-            onPress={() => router.push({ pathname: '/study', params: { categoryId: 0, categoryName: '전체 통합 학습' } })}
+            onPress={() => navigateWithSound(() => router.push({ pathname: '/study', params: { categoryId: 0, categoryName: '전체 통합 학습' } }))}
             activeOpacity={0.8}
           >
             <Text style={styles.heroStartBtnText}>▶ 전체 이어학습</Text>
@@ -54,7 +60,7 @@ export default function HomeScreen() {
       <View style={styles.shortcutsGrid}>
         <TouchableOpacity 
           style={styles.shortcutCard} 
-          onPress={() => router.push({ pathname: '/study', params: { categoryId: 0, categoryName: '전체 통합 학습' } })}
+          onPress={() => navigateWithSound(() => router.push({ pathname: '/study', params: { categoryId: 0, categoryName: '전체 통합 학습' } }))}
         >
           <Text style={styles.shortcutEmoji}>⚡</Text>
           <Text style={styles.shortcutLabel}>전체 학습</Text>
@@ -62,7 +68,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity 
           style={styles.shortcutCard} 
-          onPress={() => router.push('/list')}
+          onPress={() => navigateWithSound(() => router.push('/list'))}
         >
           <Text style={styles.shortcutEmoji}>📚</Text>
           <Text style={styles.shortcutLabel}>전체 단어장</Text>
@@ -70,7 +76,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity 
           style={styles.shortcutCard} 
-          onPress={() => router.push('/edit')}
+          onPress={() => navigateWithSound(() => router.push('/edit'))}
         >
           <Text style={styles.shortcutEmoji}>➕</Text>
           <Text style={styles.shortcutLabel}>단어 추가</Text>
@@ -78,7 +84,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity 
           style={styles.shortcutCard} 
-          onPress={() => router.push('/settings')}
+          onPress={() => navigateWithSound(() => router.push('/settings'))}
         >
           <Text style={styles.shortcutEmoji}>⚙️</Text>
           <Text style={styles.shortcutLabel}>학습 설정</Text>
@@ -114,7 +120,7 @@ export default function HomeScreen() {
   const renderCategory = ({ item }: { item: CategoryStat }) => (
     <TouchableOpacity 
       style={styles.categoryCard}
-      onPress={() => router.push({ pathname: '/study', params: { categoryId: item.id, categoryName: item.name } })}
+      onPress={() => navigateWithSound(() => router.push({ pathname: '/study', params: { categoryId: item.id, categoryName: item.name } }))}
       activeOpacity={0.7}
     >
       <View style={styles.categoryHeader}>

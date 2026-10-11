@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, useRouter } from 'expo-router';
 import { getTerms, Term } from '../database/crud';
+import { playButtonClick } from '../utils/sound';
 
 export default function ListScreen() {
   const router = useRouter();
@@ -17,7 +18,10 @@ export default function ListScreen() {
   const renderItem = ({ item }: { item: Term }) => (
     <TouchableOpacity 
       style={styles.itemRow}
-      onPress={() => router.push({ pathname: '/edit', params: { id: item.id } })}
+      onPress={() => {
+        playButtonClick();
+        router.push({ pathname: '/edit', params: { id: item.id } });
+      }}
     >
       <View style={styles.itemInfo}>
         <Text style={styles.itemTerm}>{item.term}</Text>
@@ -40,7 +44,10 @@ export default function ListScreen() {
           <TouchableOpacity 
             key={f} 
             style={[styles.filterBtn, filter === f && styles.filterBtnActive]}
-            onPress={() => setFilter(f)}
+            onPress={() => {
+              playButtonClick();
+              setFilter(f);
+            }}
           >
             <Text style={[styles.filterText, filter === f && styles.filterTextActive]}>
               {f === -1 ? '전체' : f === 0 ? '노출' : f === 1 ? '암기' : '완료'}
