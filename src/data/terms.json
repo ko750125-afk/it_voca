@@ -47,7 +47,7 @@
   {
     "id": 6,
     "term": "RAG",
-    "pronunciation": "라그 (또는 알에이지)",
+    "pronunciation": "레그 (또는 래그)",
     "fullName": "Retrieval-Augmented Generation",
     "meaning": "검색 증강 생성",
     "explanation": "AI가 답변하기 전에 외부 문서나 최신 사내 데이터를 먼저 검색해 읽어본 뒤, 그 내용을 바탕으로 신뢰성 높은 답변을 생성하는 기술입니다.",
@@ -191,7 +191,7 @@
   {
     "id": 22,
     "term": "Quantization",
-    "pronunciation": "양자화",
+    "pronunciation": "퀀타이제이션 (양자화)",
     "fullName": "",
     "meaning": "AI 모델의 가중치 용량을 줄여 가볍고 빠르게 만드는 최적화 기술",
     "explanation": "소수점 숫자로 이루어진 방대한 AI 매개변수를 16비트에서 8비트, 4비트로 압축하여 고가의 GPU 없이도 일반 PC나 모바일에서 모델을 구동할 수 있게 해줍니다.",
@@ -218,7 +218,7 @@
   {
     "id": 25,
     "term": "Context Injection",
-    "pronunciation": "컨텍스트 주입",
+    "pronunciation": "컨텍스트 인젝션 (주입)",
     "fullName": "",
     "meaning": "프롬프트 앞부분에 관련된 코드 파일이나 DB 조회 결과를 실시간으로 끼워 넣는 기법",
     "explanation": "AI 에디터가 현재 열려 있는 파일 내용이나 Git diff 변경사항을 AI에게 자동으로 전달하여 정확한 수정 코드를 얻어내는 기본 원리입니다.",
@@ -1415,7 +1415,7 @@
   {
     "id": 158,
     "term": "IaaS / PaaS / SaaS",
-    "pronunciation": "아이아스 / 파스 / 사스",
+    "pronunciation": "이아스(아이아스) / 파스 / 사스",
     "fullName": "Infrastructure / Platform / Software as a Service",
     "meaning": "인프라만 빌려주는 IaaS(AWS EC2), 개발 플랫폼까지 주는 PaaS(Vercel, Heroku), 완성된 소프트웨어만 쓰는 SaaS(Notion, Slack)",
     "explanation": "클라우드 서비스가 개발자에게 어느 수준까지 관리 책임을 위임하는지를 분류한 3대 서비스 모델입니다.",
@@ -1505,7 +1505,7 @@
   {
     "id": 168,
     "term": "Authentication",
-    "pronunciation": "오센티케이션 (인증 / AuthN)",
+    "pronunciation": "어센티케이션 (인증 / 오스)",
     "fullName": "Authentication",
     "meaning": "'당신이 정말 본인이 맞습니까?'를 신분증이나 비밀번호, 지문으로 증명하고 확인하는 절차",
     "explanation": "아이디와 비밀번호를 치고 로그인하는 행위 자체로, 시스템에 접속하려는 사람의 신원을 확인하는 1차 관문입니다.",
@@ -1514,7 +1514,7 @@
   {
     "id": 169,
     "term": "Authorization",
-    "pronunciation": "오소라이제이션 (인가 / 권한 부여 / AuthZ)",
+    "pronunciation": "어소라이제이션 (인가 / 권한 부여)",
     "fullName": "Authorization",
     "meaning": "신원이 확인된 사용자에게 '어디까지 접근하고 무엇을 할 수 있는 권한이 있는가'를 판정하는 절차",
     "explanation": "로그인된 일반 회원인지 관리자인지 따져서, 관리자 전용 페이지 접근이나 회원 삭제 버튼 노출 여부를 결정합니다.",
@@ -1523,7 +1523,7 @@
   {
     "id": 170,
     "term": "OAuth",
-    "pronunciation": "오오스 (오픈 인증)",
+    "pronunciation": "오아우스 (오픈 인증 / 오오스)",
     "fullName": "Open Authorization",
     "meaning": "내 비밀번호를 넘겨주지 않고도 '구글로 로그인', '카카오로 로그인'처럼 안전하게 타사 서비스를 이용할 수 있게 해주는 표준 인증 규격",
     "explanation": "사용자는 비밀번호 유출 걱정 없이 안전하게 로그인하고, 개발자는 번거로운 회원가입 구현을 쉽게 해결합니다.",
