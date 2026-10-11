@@ -33,59 +33,53 @@ function createWavBuffer(samples) {
   return buffer;
 }
 
-// 1. 카드 돌리는 소리: 경쾌하고 바람을 가르는 "휘익~" (Crisp Whoosh / Swoosh)
-function generateWhoosh() {
-  const durationSec = 0.22; // 220ms
+// 1. 카드 플립/회전 소리: 짧고 경쾌한 찰칵/플릭 사운드 (바람 소리 전혀 없음, 75ms)
+function generateCrispCardSnap() {
+  const durationSec = 0.075; // 75ms: 아주 짧고 경쾌함
   const totalSamples = Math.floor(sampleRate * durationSec);
   const samples = new Float32Array(totalSamples);
 
-  let b0 = 0, b1 = 0;
   for (let i = 0; i < totalSamples; i++) {
     const t = i / sampleRate;
-    const progress = t / durationSec;
-
-    // Envelope: smooth bell-shaped curve for a natural gust of wind
-    // peaks at 35% of duration
-    const env = Math.pow(Math.sin(Math.PI * Math.pow(progress, 0.7)), 2);
-
-    // Resonant frequency sweeps upwards then slightly down: 700Hz -> 1800Hz -> 1100Hz
-    const centerFreq = 700 + 1100 * Math.sin(Math.PI * progress);
     
-    // Filtered noise
-    const whiteNoise = (Math.random() * 2 - 1);
-    
-    // Simple state-variable or 2-pole resonant filter approximation
-    const q = 0.28; // resonance
-    const f = 2 * Math.sin(Math.PI * centerFreq / sampleRate);
-    b0 = b0 + f * (whiteNoise - b0 - q * b1);
-    b1 = b1 + f * b0;
+    // Very fast attack (2ms) then rapid pleasant exponential decay
+    const attack = Math.min(1, t / 0.002);
+    const decay = Math.exp(-t * 65);
+    const env = attack * decay;
 
-    // Whistling airy undertone
-    const airy = Math.sin(2 * Math.PI * centerFreq * t) * 0.25;
+    // Dual-tone tactile snap:
+    // Bright snap (1250Hz -> 820Hz)
+    const freqHigh = 1250 - (t / durationSec) * 430;
+    const toneHigh = Math.sin(2 * Math.PI * freqHigh * t);
 
-    samples[i] = (b1 * 0.75 + airy) * env * 0.85;
+    // Warm body resonance (420Hz -> 280Hz)
+    const freqLow = 420 - (t / durationSec) * 140;
+    const toneLow = Math.sin(2 * Math.PI * freqLow * t);
+
+    // Subtle wooden/card flick harmonic (2100Hz quick tap in first 8ms)
+    const flick = (t < 0.008) ? Math.sin(2 * Math.PI * 2100 * t) * (1 - t / 0.008) * 0.4 : 0;
+
+    const sample = (toneHigh * 0.55 + toneLow * 0.35 + flick) * env * 0.85;
+    samples[i] = sample;
   }
   return samples;
 }
 
-// 2. 버튼 클릭 소리: 깔끔하고 경쾌한 탭/팝 사운드 (Crisp Tap / Pop)
+// 2. 일반 버튼 클릭 소리: 깔끔하고 부드러운 탭 사운드 (35ms)
 function generateButtonClick() {
-  const durationSec = 0.045; // 45ms (short and punchy)
+  const durationSec = 0.038; // 38ms
   const totalSamples = Math.floor(sampleRate * durationSec);
   const samples = new Float32Array(totalSamples);
 
   for (let i = 0; i < totalSamples; i++) {
     const t = i / sampleRate;
-    const env = Math.exp(-t * 110); // fast decay
+    const env = Math.exp(-t * 130);
 
-    // Gentle bubble/pop pitch drop: 950Hz -> 480Hz
-    const freq = 950 - (t / durationSec) * 470;
-    const click = Math.sin(2 * Math.PI * freq * t);
+    // Gentle pop: 780Hz -> 420Hz
+    const freq = 780 - (t / durationSec) * 360;
+    const tone = Math.sin(2 * Math.PI * freq * t);
 
-    // Tiny initial transient tick
-    const tick = (i < 40) ? (Math.random() * 2 - 1) * 0.3 : 0;
-
-    samples[i] = (click * 0.7 + tick) * env * 0.65;
+    samples[i] = tone * env * 0.65;
   }
   return samples;
 }
@@ -95,8 +89,11 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-fs.writeFileSync(path.join(dir, 'card-whoosh.wav'), createWavBuffer(generateWhoosh()));
-fs.writeFileSync(path.join(dir, 'card-flip.wav'), createWavBuffer(generateWhoosh())); // fallback for existing import
-fs.writeFileSync(path.join(dir, 'button-click.wav'), createWavBuffer(generateButtonClick()));
+const snapBuffer = createWavBuffer(generateCrispCardSnap());
+const clickBuffer = createWavBuffer(generateButtonClick());
 
-console.log('Successfully generated card-whoosh.wav and button-click.wav!');
+fs.writeFileSync(path.join(dir, 'card-whoosh.wav'), snapBuffer);
+fs.writeFileSync(path.join(dir, 'card-flip.wav'), snapBuffer);
+fs.writeFileSync(path.join(dir, 'button-click.wav'), clickBuffer);
+
+console.log('Successfully regenerated crisp card snap sound!');
