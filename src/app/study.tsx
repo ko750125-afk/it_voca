@@ -9,7 +9,7 @@ import { playCardWhoosh, playButtonClick } from '../utils/sound';
 const { width } = Dimensions.get('window');
 
 export default function StudyScreen() {
-  const { categoryId, categoryName } = useLocalSearchParams();
+  const { categoryId, categoryName, statusFilter } = useLocalSearchParams();
   const router = useRouter();
   
   const [terms, setTerms] = useState<Term[]>([]);
@@ -17,12 +17,23 @@ export default function StudyScreen() {
   const [settings, setSettings] = useState<Settings | null>(null);
 
   useEffect(() => {
-    // Load terms (status 0 or 1)
-    const allTerms = getTerms(Number(categoryId));
-    const activeTerms = allTerms.filter(t => t.status !== 2);
-    setTerms(activeTerms);
+    const catId = categoryId !== undefined ? Number(categoryId) : 0;
+    const sFilter = statusFilter !== undefined && statusFilter !== '' ? Number(statusFilter) : undefined;
+
+    let loadedTerms: Term[];
+    if (sFilter !== undefined && sFilter !== -1) {
+      // 특정 상태만 복습 (0: 노출만, 1: 암기만, 2: 완료만)
+      loadedTerms = getTerms(catId, sFilter);
+    } else {
+      // 기본 학습 모드: 암기 완료(2)를 제외한 활성 단어(0, 1)
+      const allTerms = getTerms(catId);
+      loadedTerms = allTerms.filter(t => t.status !== 2);
+    }
+
+    setTerms(loadedTerms);
+    setCurrentIndex(0);
     setSettings(getSettings());
-  }, [categoryId]);
+  }, [categoryId, statusFilter]);
 
   useEffect(() => {
     if (terms.length > 0 && terms[currentIndex]) {

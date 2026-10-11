@@ -27,6 +27,8 @@ export default function RootLayout() {
       <Stack.Screen name="index" options={{ title: '홈' }} />
       <Stack.Screen name="study" options={{ title: '학습', headerBackTitle: '뒤로' }} />
       <Stack.Screen name="list" options={{ title: '단어장', headerBackTitle: '뒤로' }} />
+      <Stack.Screen name="detail" options={{ title: '용어 상세', headerBackTitle: '뒤로' }} />
+      <Stack.Screen name="edit" options={{ title: '용어 편집', headerBackTitle: '뒤로' }} />
       <Stack.Screen name="settings" options={{ title: '설정', headerBackTitle: '뒤로' }} />
     </Stack>
   );
